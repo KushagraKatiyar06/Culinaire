@@ -39,14 +39,35 @@ def getVideoMetadata(videoID: str) -> dict | None:
     return {"title": "Unkown", "author": "Unknown"}
 
 def fetchTranscript(videoID: str) -> list[FetchedTranscriptSnippet]:
-    ytt_api = YouTubeTranscriptApi()
-    transcript = ytt_api.fetch(videoID)
+    try:
+        ytt_api = YouTubeTranscriptApi()
+        transcript = ytt_api.fetch(videoID)
+        snippets = transcript.snippets
+        
+        if not snippets:
+            print(f"Warning: Transcript for {videoID} is empty.\n")
+            return []
+            
+        print(f"found transcript snippets of {videoID}\n")
+        return snippets
 
-    snippets = transcript.snippets
-    video_ID = transcript.video_id
+    except Exception as e:
+        print(f"could not fetch transcript for {videoID}: {e}\n")
+        return []
+    
+def isValidTranscript(snippets: list) -> bool:
+    total_text = " ".join([snippet.text for snippet in snippets])
+    if len(total_text) < 100:
+        print("transcript invalid.\n")
+        return False
+    
+    clean_text = re.sub(r'\[.*?\]|\(.*?\)', '', total_text).strip()
+    if len(clean_text) < 50: 
+        print("transcript invalid.\n")
+        return False
 
-    print(f"found transcript snippets of {video_ID}\n")
-    return snippets
+    print("transcript valid.\n")
+    return True
 
 def printTranscript(snippets: list[FetchedTranscriptSnippet]) -> None:
     for snippet in snippets:
@@ -72,10 +93,16 @@ def test_url(url: str) -> None:
         videoName = "Unknown"
         videoAuthor = "Unknown"
         
-    printTranscript(snippets)
-    print("Video ID, Title, Author:", f"{videoID}, {videoName}, {videoAuthor}")
+    if isValidTranscript(snippets) is False:
+        print("Video ID, Title, Author:", f"{videoID}, {videoName}, {videoAuthor}")
+        return
+    else:
+        printTranscript(snippets)
+        print("Video ID, Title, Author:", f"{videoID}, {videoName}, {videoAuthor}\n")
+       
 
 if __name__ == "__main__":
+    print("testing trasncript.py methods. \n")
     # desktop
     
         # desktop link video
@@ -83,10 +110,11 @@ if __name__ == "__main__":
         # desktop short link video
     # test_url("https://www.youtube.com/shorts/-veIcB4yxUA")
 
-
     #mobile 
-    
         # mobile link video
         # mobile short video
     # test_url("https://youtube.com/shorts/bOUvLPmTWSw?si=qBb3pum-MJo5WtsN")
+
+    # testing dialogue-less videos
+    test_url("https://youtube.com/shorts/RDJto3R5IbE?si=wT1V1E2Ofd2Nv_T1")
 
