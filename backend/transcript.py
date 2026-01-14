@@ -13,29 +13,30 @@ class FetchedTranscript:
 
 def getVideoID(url: str) -> str | None:
     YOUTUBE_REGEX = r"(?:v=|\/)([0-9A-Za-z_-]{11})"
-
     if not url:
+        print("no url provided.\n")
         return None
     else:
         match = re.search(YOUTUBE_REGEX, url)
         if match:
+            print("video ID found:", match.group(1), "\n")
             return match.group(1)
         else:
             return None
         
-def getVideoTItle(videoID: str) -> str | None:
+def getVideoMetadata(videoID: str) -> dict | None:
     url = f"https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={videoID}&format=json"
     response = requests.get(url)
     if response.status_code == 200:
-        return response.json().get("title")
-    return None
-        
-def getVideoAuthor(videoID: str) -> str | None:
-    url = f"https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={videoID}&format=json"
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.json().get("author_name")
-    return None
+        data = response.json()
+        print("video metadata fetched.\n")
+        return {
+            "title": data.get("title", ""),
+            "author": data.get("author_name", "")
+        }
+    
+    print("failed to fetch video metadata.\n")
+    return {"title": "Unkown", "author": "Unknown"}
 
 def fetchTranscript(videoID: str) -> list[FetchedTranscriptSnippet]:
     ytt_api = YouTubeTranscriptApi()
@@ -44,7 +45,7 @@ def fetchTranscript(videoID: str) -> list[FetchedTranscriptSnippet]:
     snippets = transcript.snippets
     video_ID = transcript.video_id
 
-    print(f"transcript snippets of {video_ID}")
+    print(f"found transcript snippets of {video_ID}\n")
     return snippets
 
 def printTranscript(snippets: list[FetchedTranscriptSnippet]) -> None:
@@ -62,9 +63,15 @@ def test_url(url: str) -> None:
         return
 
     snippets = fetchTranscript(videoID)
-    videoName = getVideoTItle(videoID)
-    videoAuthor = getVideoAuthor(videoID)
+    videoMetaData = getVideoMetadata(videoID)
 
+    if videoMetaData:
+        videoName = videoMetaData["title"]
+        videoAuthor = videoMetaData["author"]
+    else:
+        videoName = "Unknown"
+        videoAuthor = "Unknown"
+        
     printTranscript(snippets)
     print("Video ID, Title, Author:", f"{videoID}, {videoName}, {videoAuthor}")
 
