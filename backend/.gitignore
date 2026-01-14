@@ -1,0 +1,2 @@
+# no leaking api keys
+.env
