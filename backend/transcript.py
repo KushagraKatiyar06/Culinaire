@@ -76,9 +76,17 @@ def test_url(url: str) -> None:
     print("Video ID, Title, Author:", f"{videoID}, {videoName}, {videoAuthor}")
 
 if __name__ == "__main__":
-    test_url("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+    # desktop
+    
+        # desktop link video
+    # test_url("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        # desktop short link video
+    # test_url("https://www.youtube.com/shorts/-veIcB4yxUA")
 
 
-
-
+    #mobile 
+    
+        # mobile link video
+        # mobile short video
+    # test_url("https://youtube.com/shorts/bOUvLPmTWSw?si=qBb3pum-MJo5WtsN")
 
