@@ -1,2 +1,5 @@
 # ignore virtual enviroment
 venv/
+backend/.env
+backend/.env
+/backend

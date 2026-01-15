@@ -14,12 +14,12 @@ class FetchedTranscript:
 def getVideoID(url: str) -> str | None:
     YOUTUBE_REGEX = r"(?:v=|\/)([0-9A-Za-z_-]{11})"
     if not url:
-        print("no url provided.\n")
+        print("no url provided.")
         return None
     else:
         match = re.search(YOUTUBE_REGEX, url)
         if match:
-            print("video ID found:", match.group(1), "\n")
+            print("video ID found:", match.group(1))
             return match.group(1)
         else:
             return None
@@ -29,13 +29,13 @@ def getVideoMetadata(videoID: str) -> dict | None:
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        print("video metadata fetched.\n")
+        print("video metadata fetched.")
         return {
             "title": data.get("title", ""),
             "author": data.get("author_name", "")
         }
     
-    print("failed to fetch video metadata.\n")
+    print("failed to fetch video metadata.")
     return {"title": "Unkown", "author": "Unknown"}
 
 def fetchTranscript(videoID: str) -> list[FetchedTranscriptSnippet]:
@@ -45,28 +45,28 @@ def fetchTranscript(videoID: str) -> list[FetchedTranscriptSnippet]:
         snippets = transcript.snippets
         
         if not snippets:
-            print(f"Warning: Transcript for {videoID} is empty.\n")
+            print(f"Warning: Transcript for {videoID} is empty.")
             return []
             
-        print(f"found transcript snippets of {videoID}\n")
+        print(f"found transcript snippets of {videoID}")
         return snippets
 
     except Exception as e:
-        print(f"could not fetch transcript for {videoID}: {e}\n")
+        print(f"could not fetch transcript for {videoID}")
         return []
     
 def isValidTranscript(snippets: list) -> bool:
     total_text = " ".join([snippet.text for snippet in snippets])
     if len(total_text) < 100:
-        print("transcript invalid.\n")
+        print("transcript invalid.")
         return False
     
     clean_text = re.sub(r'\[.*?\]|\(.*?\)', '', total_text).strip()
     if len(clean_text) < 50: 
-        print("transcript invalid.\n")
+        print("transcript invalid.")
         return False
 
-    print("transcript valid.\n")
+    print("transcript valid.")
     return True
 
 def printTranscript(snippets: list[FetchedTranscriptSnippet]) -> None:
@@ -98,11 +98,11 @@ def test_url(url: str) -> None:
         return
     else:
         printTranscript(snippets)
-        print("Video ID, Title, Author:", f"{videoID}, {videoName}, {videoAuthor}\n")
+        print("Video ID, Title, Author:", f"{videoID}, {videoName}, {videoAuthor}")
        
 
 if __name__ == "__main__":
-    print("testing trasncript.py methods. \n")
+    print("testing trasncript.py methods.\n")
     # desktop
     
         # desktop link video

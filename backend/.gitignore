@@ -1,2 +1,5 @@
-# no leaking api keys
+# Environment variables
 .env
+
+# Python cache
+__pycache__/
