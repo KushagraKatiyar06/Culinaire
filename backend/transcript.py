@@ -11,6 +11,8 @@ class FetchedTranscript:
     is_generated: bool
 '''
 
+# Transcript Functions
+
 def getVideoID(url: str) -> str | None:
     YOUTUBE_REGEX = r"(?:v=|\/)([0-9A-Za-z_-]{11})"
     if not url:
@@ -69,6 +71,8 @@ def isValidTranscript(snippets: list) -> bool:
     print("transcript valid.")
     return True
 
+# Testing
+
 def printTranscript(snippets: list[FetchedTranscriptSnippet]) -> None:
     for snippet in snippets:
         dialogue = snippet.text
@@ -116,5 +120,5 @@ if __name__ == "__main__":
     # test_url("https://youtube.com/shorts/bOUvLPmTWSw?si=qBb3pum-MJo5WtsN")
 
     # testing dialogue-less videos
-    test_url("https://youtube.com/shorts/RDJto3R5IbE?si=wT1V1E2Ofd2Nv_T1")
+    #test_url("https://youtube.com/shorts/RDJto3R5IbE?si=wT1V1E2Ofd2Nv_T1")
 
