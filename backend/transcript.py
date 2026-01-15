@@ -32,13 +32,14 @@ def getVideoMetadata(videoID: str) -> dict | None:
     if response.status_code == 200:
         data = response.json()
         print("video metadata fetched.")
+        print("title:", data.get("title", ""), "author:", data.get("author_name", ""))
         return {
             "title": data.get("title", ""),
             "author": data.get("author_name", "")
         }
     
     print("failed to fetch video metadata.")
-    return {"title": "Unkown", "author": "Unknown"}
+    return {"title": "Unknown", "author": "Unknown"}
 
 def fetchTranscript(videoID: str) -> list[FetchedTranscriptSnippet]:
     try:

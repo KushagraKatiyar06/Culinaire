@@ -79,5 +79,7 @@ def generateRecipe(url: str):
     return recipe
 
 if __name__ == "__main__":
-    test_url = "https://www.youtube.com/watch?v=hDjK5C2aoSs"
-    generateRecipe(test_url)
+    print("testing recipe.py methods.\n")
+
+    #test_url = "https://www.youtube.com/watch?v=hDjK5C2aoSs"
+    #generateRecipe(test_url)
