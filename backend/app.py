@@ -46,6 +46,9 @@ def getRecipe():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/health', methods=['GET'])
+def healthCheck():
+    return jsonify({"status": "ok"}), 200
 
 if __name__ == '__main__':
     hostname = socket.gethostname()
@@ -55,6 +58,6 @@ if __name__ == '__main__':
     print(f"Server is starting!")
     print(f"Local URL for React Native: http://{local_ip}:5000")
     print("-" * 30)
-    
+
     app.run(debug=True, host='0.0.0.0', port=5000)
 

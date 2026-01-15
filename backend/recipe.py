@@ -5,6 +5,8 @@ from pydantic import BaseModel
 from typing import List
 from dotenv import load_dotenv, find_dotenv
 
+# Pydantic Classes
+
 class Ingredient(BaseModel):
     name: str
     quantity: str
@@ -15,14 +17,18 @@ class GroupedStep(BaseModel):
     end_time: float
     action: str
     detail: str
+    tools: List[str]
+    currentIngredients: List[str]
 
 class RecipeData(BaseModel):
     title: str
     servings: str
     ingredient: List[Ingredient]
     instructions: List[GroupedStep]
-    calories: str
-    
+    calories: str 
+
+# Generate Recipes
+
 load_dotenv(find_dotenv())
 
 api_key = os.getenv("OPENAI_API_KEY")
@@ -45,10 +51,12 @@ def generateRecipe(url: str):
     )
 
     system_prompt = (
-        "You are a helpful culinary assistant. Analyze the transcript provided and "
-        "consolidate the information into logical cooking steps. Group consecutive "
-        "small actions into single, broader steps with accurate start and end times. "
-        "Do not create separate steps for every sentence."
+    "You are a helpful culinary assistant. Analyze the transcript provided and: "
+    "1. Consolidate info into logical cooking steps with start and end times. "
+    "2. For each step, identify the specific 'tools' used (e.g., whisk, frying pan). "
+    "3. For each step, identify 'currentIngredients' involved in that specific action. "
+    "4. Estimate total calories for the entire recipe. "
+    "Do not create separate steps for every sentence; group them by physical action."
     )
     
     completion = client.beta.chat.completions.parse(
@@ -72,7 +80,9 @@ def generateRecipe(url: str):
 
     print("\nInstructions:")
     for step in recipe.instructions:
-        print(f"[{step.start_time}s - {step.end_time}s] {step.action}: {step.detail}")
+        print(f"[{step.start_time}s - {step.end_time}s] {step.action}")
+        print(f"Tools: {', '.join(step.tools)}")
+        print(f"Ingredients here: {', '.join(step.currentIngredients)}")
 
     print(f"\nCalories: {recipe.calories}")
     
