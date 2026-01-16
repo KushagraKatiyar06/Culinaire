@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, StyleSheet, Alert } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, ActivityIndicator, StyleSheet, Alert } from "react-native";
 import { ApiService } from "../services/api";
 
 export default function Index() {
@@ -17,7 +17,6 @@ export default function Index() {
       const recipe = await ApiService.getRecipe(url);
       console.log("Recipe Received:", recipe.title);
       Alert.alert("Recipe Found!", `Title: ${recipe.title}\nCalories: ${recipe.calories}`);
-      // NEXT STEP: Navigate to a details screen with this data
     } catch (error) {
       Alert.alert("Connection Error", "Check if your Flask server is running on the correct IP.");
     } finally {
@@ -27,6 +26,12 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
+
+      <Image 
+        source={require('../assets/images/culinaire_logo.png')} 
+        style={styles.logo} 
+      />
+
       <Text style={styles.logo}>Culinaire</Text>
       
       <TextInput
@@ -53,9 +58,43 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#ffffff", alignItems: "center", justifyContent: "center", padding: 20 },
-  logo: { fontSize: 32, fontWeight: 'bold', marginBottom: 40, color: "#000" },
-  input: { width: '100%', height: 50, borderWidth: 1, borderColor: "#ccc", borderRadius: 10, paddingHorizontal: 15, marginBottom: 20 },
-  button: { width: '100%', height: 50, backgroundColor: '#000', borderRadius: 10, justifyContent: 'center', alignItems: 'center' },
-  buttonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 }
+  container: { 
+    flex: 1,
+    backgroundColor: "#ffffff", 
+    alignItems: "center", 
+    justifyContent: "center", 
+    padding: 20 
+  },
+
+  logo: { 
+    fontSize: 32, 
+    fontWeight: 'bold',
+    marginBottom: 40, 
+    color: "#000" 
+  },
+
+  input: { 
+    width: '100%',
+    height: 50, 
+    borderWidth: 1, 
+    borderColor: "#ccc", 
+    borderRadius: 10, 
+    paddingHorizontal: 15, 
+    marginBottom: 20 
+  },
+
+  button: { 
+    width: '100%', 
+    height: 50, 
+    backgroundColor: 
+    '#000', 
+    borderRadius: 10, 
+    justifyContent: 'center', 
+    alignItems: 'center' 
+  },
+
+  buttonText: { 
+    color: '#fff', 
+    fontWeight: 'bold', 
+    fontSize: 16 }
 });
