@@ -27,12 +27,13 @@ export default function Index() {
   return (
     <View style={styles.container}>
 
-      <Image 
-        source={require('../assets/images/culinaire_logo.png')} 
-        style={styles.logo} 
-      />
-
-      <Text style={styles.logo}>Culinaire</Text>
+      <View style={styles.logo_container}>
+        <Image 
+          source={require('../assets/images/culinaire_logo.png')} 
+          style={styles.logo} 
+        />
+        <Text style={styles.logo_text}>Culinaire</Text>
+      </View>
       
       <TextInput
         style={styles.input}
@@ -66,11 +67,22 @@ const styles = StyleSheet.create({
     padding: 20 
   },
 
+  logo_container: {
+    flex: 1,
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+
   logo: { 
+    height: 500 
+  },
+
+  logo_text: {
+    fontFamily: 'Arial',
     fontSize: 32, 
     fontWeight: 'bold',
     marginBottom: 40, 
-    color: "#000" 
+    color: "#000000"
   },
 
   input: { 
@@ -79,8 +91,8 @@ const styles = StyleSheet.create({
     borderWidth: 1, 
     borderColor: "#ccc", 
     borderRadius: 10, 
-    paddingHorizontal: 15, 
-    marginBottom: 20 
+    paddingHorizontal: 15,
+    marginBottom: 20
   },
 
   button: { 
