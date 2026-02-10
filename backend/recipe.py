@@ -6,7 +6,6 @@ from typing import List
 from dotenv import load_dotenv, find_dotenv
 
 # Pydantic Classes
-
 class Ingredient(BaseModel):
     name: str
     quantity: str
@@ -28,7 +27,6 @@ class RecipeData(BaseModel):
     calories: str 
 
 # Generate Recipes
-
 load_dotenv(find_dotenv())
 
 api_key = os.getenv("OPENAI_API_KEY")
@@ -90,6 +88,5 @@ def generateRecipe(url: str):
 
 if __name__ == "__main__":
     print("testing recipe.py methods.\n")
-
     #test_url = "https://www.youtube.com/watch?v=hDjK5C2aoSs"
     #generateRecipe(test_url)

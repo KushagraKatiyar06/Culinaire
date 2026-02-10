@@ -11,7 +11,6 @@ CORS(app)
 def getMetadata():
     data = request.json
     url = data.get('url')
-
     if not url:
         return jsonify({"error": "no url provided"}), 400
     
@@ -35,7 +34,6 @@ def getRecipe():
 
     if not url:
         return jsonify({"error": "No URL provided"}), 400
-    
     try:
         recipe = generateRecipe(url)
         if recipe is None:
@@ -60,4 +58,3 @@ if __name__ == '__main__':
     print("-" * 30)
 
     app.run(debug=True, host='0.0.0.0', port=5000)
-

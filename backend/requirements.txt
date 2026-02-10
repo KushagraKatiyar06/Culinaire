@@ -3,9 +3,3 @@ flask-cors
 openai
 youtube-transcript-api
 python-dotenv
-
-
-
-
-
-
